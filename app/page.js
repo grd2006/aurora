@@ -175,7 +175,7 @@ const ChatComponent = () => {
       }
 
       const genAI = new GoogleGenerativeAI(apiKey);
-      const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
+      const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash-preview-04-17' });
 
       const generationConfig = {
         temperature: 0.7,

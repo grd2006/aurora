@@ -24,7 +24,7 @@ const ChatSidebar = ({ user, onChatSelect, currentChatId, onNewChat, onDeleteCha
   }, [user]);
 
   return (
-    <div className="w-64 bg-rose-100 p-4 rounded-lg mr-4 h-[calc(100vh-2rem)] overflow-y-auto">
+    <div className="fixed left-0 w-64 bg-rose-100 p-4 rounded-lg mr-4 h-[calc(100vh-2rem)] overflow-y-auto">
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-lg font-bold text-rose-800">Previous Chats</h2>
         <button
@@ -47,7 +47,7 @@ const ChatSidebar = ({ user, onChatSelect, currentChatId, onNewChat, onDeleteCha
               }`}
             >
               <p className="truncate">
-                {chat.title.length > 25 ? chat.title.slice(0, 25) + "..." : chat.title || 'New Chat'}
+                {chat.title.length > 20 ? chat.title.slice(0, 20) + "..." : chat.title || 'New Chat'}
               </p>
 
               <p className="text-xs opacity-70">
