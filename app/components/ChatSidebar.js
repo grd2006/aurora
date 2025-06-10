@@ -46,14 +46,17 @@ const ChatSidebar = ({ user, onChatSelect, currentChatId, onNewChat, onDeleteCha
                   : 'hover:bg-rose-200 text-rose-900'
               }`}
             >
-              <p className="truncate">{chat.title || 'New Chat'}</p>
+              <p className="truncate">
+                {chat.title.length > 25 ? chat.title.slice(0, 25) + "..." : chat.title || 'New Chat'}
+              </p>
+
               <p className="text-xs opacity-70">
                 {chat.createdAt?.toDate().toLocaleDateString()}
               </p>
             </button>
             <button
               onClick={() => onDeleteChat(chat.id)}
-              className="p-2 text-rose-600 hover:bg-rose-200 rounded-lg"
+              className="px-2 py-4 text-rose-600 hover:bg-rose-200 rounded-lg"
               aria-label="Delete chat"
             >
               <RiDeleteBin6Line />

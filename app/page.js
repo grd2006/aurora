@@ -105,7 +105,7 @@ const ChatComponent = () => {
   };
 
   // Add this after handleNewChat
-  const handleDeleteChat = async (chatId) => {
+  const handleDeleteChat = async (chatId) => {  // Added curly brace here
     if (!user || !chatId) return;
     
     try {
@@ -160,7 +160,6 @@ const ChatComponent = () => {
       setLoading(true);
       setResponse('');
 
-      // Use chatId instead of currentChatId
       const messagesRef = collection(db, "aurora", user.uid, "chats", chatId, "messages");
       await addDoc(messagesRef, {
         content: inputText,
@@ -168,37 +167,39 @@ const ChatComponent = () => {
         timestamp: serverTimestamp(),
       });
 
-      const { GoogleGenerativeAI } = require('@google/generative-ai'); // Changed import method
-
+      const { GoogleGenerativeAI } = require('@google/generative-ai');
       const apiKey = process.env.NEXT_PUBLIC_GOOGLE_GENAI_API_KEY;
 
       if (!apiKey) {
-        throw new Error("NEXT_PUBLIC_GOOGLE_GENAI_API_KEY is not set. Please check your .env.local file and ensure the Next.js server was restarted.");
+        throw new Error("NEXT_PUBLIC_GOOGLE_GENAI_API_KEY is not set.");
       }
 
-      // Initialize the model
       const genAI = new GoogleGenerativeAI(apiKey);
-      const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' }); // Changed model name
+      const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
 
       const generationConfig = {
         temperature: 0.7,
         maxOutputTokens: 2048,
       };
 
-      const chat = model.startChat();
+      // Create chat history from messages array with correct role mapping
+      const chat = model.startChat({
+        history: messages.map(msg => ({
+          role: msg.role === 'assistant' ? 'model' : 'user', // Map 'assistant' to 'model'
+          parts: [{ text: msg.content }]
+        })),
+        generationConfig,
+      });
+
       const result = await chat.sendMessageStream(inputText);
-      const contents = [{ role: 'user', parts: [{ text: inputText }] }];
-
-
 
       let fullStreamedResponse = '';
       for await (const chunk of result.stream) {
         const chunkText = chunk.text();
         fullStreamedResponse += chunkText;
-        setResponse(fullStreamedResponse); // Update UI as chunks arrive
+        setResponse(fullStreamedResponse);
       }
 
-      // Store AI response in the new structure
       await addDoc(messagesRef, {
         content: fullStreamedResponse,
         role: 'assistant',
