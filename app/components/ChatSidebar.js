@@ -24,9 +24,9 @@ const ChatSidebar = ({ user, onChatSelect, currentChatId, onNewChat, onDeleteCha
   }, [user]);
 
   return (
-    <div className={`fixed md:relative z-50 transition-all duration-300 ${
+    <div className={`fixed md:fixed z-50 transition-all duration-300 ${
       isOpen ? "left-0" : "-left-64"
-    } w-0 md:w-64`}>
+    }`}>
       <div className={`w-64 bg-rose-100 p-4 rounded-lg h-[calc(100vh-2rem)] ${
         isOpen ? "overflow-y-auto" : "overflow-hidden"
       }`}>
