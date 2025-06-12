@@ -305,22 +305,22 @@ const ChatComponent = () => {
             {user && (
               <button
                 onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-                className="p-2 bg-rose-500 text-white rounded-lg hover:bg-rose-600"
+                className="p-1.5 sm:p-2 bg-rose-500 text-white rounded-lg hover:bg-rose-600"
               >
-                <RiMenuLine />
+                <RiMenuLine className="text-sm sm:text-base" />
               </button>
             )}
-            <div className="text-xl font-bold text-black">
+            <div className="text-base sm:text-xl font-bold text-black">
               Chat with Aurora
             </div>
           </div>
           {user ? (
-            <div className="flex items-center gap-3">
-              {user.photoURL && <img src={user.photoURL} alt={user.displayName || "User"} className="w-8 h-8 rounded-full"/>}
-              <span className="text-sm text-black hidden sm:inline">{user.displayName || user.email}</span>
+            <div className="flex items-center gap-2 sm:gap-3">
+              {user.photoURL && <img src={user.photoURL} alt={user.displayName || "User"} className="w-6 h-6 sm:w-8 sm:h-8 rounded-full"/>}
+              <span className="text-xs sm:text-sm text-black hidden sm:inline">{user.displayName || user.email}</span>
               <button
                 onClick={handleSignOut}
-                className="px-3 py-2 bg-rose-600 text-white rounded-lg hover:bg-rose-700 flex items-center gap-1"
+                className="px-2 py-1.5 sm:px-3 sm:py-2 bg-rose-600 text-white rounded-lg hover:bg-rose-700 flex items-center gap-1 text-xs sm:text-sm"
               >
                 <RiLogoutBoxLine /> Sign Out
               </button>
@@ -328,7 +328,7 @@ const ChatComponent = () => {
           ) : (
             <button
               onClick={handleGoogleSignIn}
-              className="px-4 py-2 bg-white text-rose-600 border border-rose-600 rounded-lg hover:bg-rose-50 flex items-center gap-2"
+              className="px-3 py-1.5 sm:px-4 sm:py-2 bg-white text-rose-600 border border-rose-600 rounded-lg hover:bg-rose-50 flex items-center gap-2 text-xs sm:text-sm"
             >
               <RiGoogleFill /> Sign in with Google
             </button>
