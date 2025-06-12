@@ -299,7 +299,7 @@ const ChatComponent = () => {
         />
       )}
       
-      <div className="flex flex-col w-full max-w-3xl mx-auto">
+      <div className="flex flex-col w-full mx-auto">
         <header className="flex items-center justify-between mb-4 p-2 bg-rose-500/30 rounded-lg">
           <div className="flex items-center gap-2">
             {user && (
