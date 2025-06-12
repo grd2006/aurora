@@ -1,6 +1,6 @@
 "use client"
 import MarkdownRenderer from "@/app/components/MarkdownRenderer";
-import { RiChatNewLine, RiGoogleFill, RiLogoutBoxLine } from "react-icons/ri";
+import { RiChatNewLine, RiGoogleFill, RiLogoutBoxLine, RiMenuLine } from "react-icons/ri";
 import { useState, useEffect } from 'react';
 import { initializeApp, getApps, getApp } from "firebase/app";
 import {
@@ -50,6 +50,7 @@ const ChatComponent = () => {
   const [authLoading, setAuthLoading] = useState(true);
   const [messages, setMessages] = useState([]); // Add this with other state declarations
   const [currentChatId, setCurrentChatId] = useState(null);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -275,18 +276,40 @@ const ChatComponent = () => {
 
   return (
     <div className="flex min-w-screen w-full min-h-screen h-full p-4 bg-gradient-to-br from-rose-300 to-rose-400">
+      {/* Sidebar backdrop - show on all screen sizes when sidebar is open */}
+      {isSidebarOpen && (
+        <div 
+          className="fixed inset-0 bg-black/50 z-40"
+          onClick={() => setIsSidebarOpen(false)}
+        />
+      )}
+
       {user && (
         <ChatSidebar 
           user={user}
-          onChatSelect={handleChatSelect}
+          onChatSelect={(chatId) => {
+            handleChatSelect(chatId);
+            setIsSidebarOpen(false);
+          }}
           currentChatId={currentChatId}
           onNewChat={handleNewChat}
-          onDeleteChat={handleDeleteChat}  // Add this line
+          onDeleteChat={handleDeleteChat}
+          isOpen={isSidebarOpen}
+          onToggle={() => setIsSidebarOpen(!isSidebarOpen)}
         />
       )}
+      
       <div className="flex flex-col w-full max-w-3xl mx-auto">
         <header className="flex items-center justify-between mb-4 p-2 bg-rose-500/30 rounded-lg">
-          <div className="flex items-center">
+          <div className="flex items-center gap-2">
+            {user && (
+              <button
+                onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+                className="p-2 bg-rose-500 text-white rounded-lg hover:bg-rose-600"
+              >
+                <RiMenuLine />
+              </button>
+            )}
             <div className="text-xl font-bold text-black">
               Chat with Aurora
             </div>
